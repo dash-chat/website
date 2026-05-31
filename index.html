@@ -242,7 +242,8 @@
           // and rely on the server-side Turnstile check to reject bots.
           fetch(form.action, { method: 'POST', mode: 'no-cors', body: body })
             .then(function () {
-              form.style.display = 'none';
+              var card = form.closest('.form-card');
+              (card || form).style.display = 'none';
               successBox.style.display = 'block';
             })
             .catch(function () {
