@@ -7,7 +7,7 @@
     <meta name="description" content="Secure messaging that keeps working when the internet doesn't. Dash Chat is an offline-first, end-to-end encrypted messenger for communities that need to stay connected." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
       :root {
         --bg: #fcfcfc; --surface: #fff; --surface-2: #f6f7f9;
@@ -70,7 +70,7 @@
       form .submit-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
       form .submit-btn:disabled { cursor: not-allowed; opacity: 0.68; transform: none; }
       .form-hint { font-size: 0.85rem; color: #b45309; margin: 0; line-height: 1.4; }
-      #recaptcha-wrap { min-height: 78px; overflow: hidden; }
+      #captcha-wrap { min-height: 65px; }
       #formSuccess { display: none; margin-top: 30px; padding: 22px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); max-width: 520px; box-shadow: var(--shadow-soft); }
       #formSuccess strong { display: block; margin-bottom: 4px; font-size: 1.05rem; }
       #formSuccess span { color: var(--muted); }
@@ -96,7 +96,7 @@
         .hero { padding: 134px 0 68px; }
         section { padding: 62px 0; }
         .form-card { padding: 20px; }
-        #recaptcha-wrap { transform: scale(0.92); transform-origin: left top; min-height: 72px; }
+        #captcha-wrap { transform: scale(0.92); transform-origin: left top; min-height: 60px; }
       }
     </style>
   </head>
@@ -139,7 +139,7 @@
       <div class="container section-body">
         <h2>Get involved</h2>
         <div class="form-card">
-          <form action="https://submit-form.com/x8wivjMPt" method="POST" id="stayConnectedForm">
+          <form action="__APPS_SCRIPT_URL__" method="POST" id="stayConnectedForm">
             <input type="email" id="email" name="email" required placeholder="Email*" />
             <input type="text" id="name" name="name" placeholder="Name (optional)" />
             <div class="form-label">I'd like to…</div>
@@ -152,8 +152,8 @@
               <div class="form-label" style="margin-bottom: 6px;">Tell us a bit?</div>
               <textarea id="details" name="details" rows="4" placeholder="Org/group, size, Android/iOS mix, what you have in mind."></textarea>
             </div>
-            <div id="recaptcha-wrap"><div class="g-recaptcha" data-sitekey="6LfXWbYrAAAAAA0JyvaevQVvn_5YCQIkLDJPOKoL"></div></div>
-            <p id="recaptcha-hint" class="form-hint" hidden></p>
+            <div id="captcha-wrap"><div class="cf-turnstile" data-sitekey="__TURNSTILE_SITE_KEY__"></div></div>
+            <p id="captcha-hint" class="form-hint" hidden></p>
             <button type="submit" class="submit-btn">Send &rarr;</button>
           </form>
         </div>
@@ -205,64 +205,57 @@
 
         var form = document.getElementById('stayConnectedForm');
         var successBox = document.getElementById('formSuccess');
-        var recaptchaHint = document.getElementById('recaptcha-hint');
+        var captchaHint = document.getElementById('captcha-hint');
         if (!form) return;
 
-        function showRecaptchaHint(message) {
-          if (!recaptchaHint) return;
-          recaptchaHint.hidden = false;
-          recaptchaHint.textContent = message;
+        function showHint(message) {
+          if (!captchaHint) return;
+          captchaHint.hidden = false;
+          captchaHint.textContent = message;
         }
-
-        function submitForm() {
-          var submitBtn = form.querySelector('.submit-btn');
-          if (submitBtn) submitBtn.disabled = true;
-          var body = new FormData(form);
-          if (typeof grecaptcha === 'undefined' || !grecaptcha.getResponse) {
-            showRecaptchaHint('reCAPTCHA did not load. Please refresh the page and try again.');
-            if (submitBtn) submitBtn.disabled = false;
-            return;
-          }
-          var token = grecaptcha.getResponse();
-          if (!token) {
-            showRecaptchaHint('Please complete the reCAPTCHA before sending.');
-            if (submitBtn) submitBtn.disabled = false;
-            return;
-          }
-          if (recaptchaHint) recaptchaHint.hidden = true;
-          body.set('g-recaptcha-response', token);
-          fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: body, redirect: 'follow' })
-            .then(function (resp) {
-              var ok = resp.ok || (resp.url && resp.url.indexOf('_status=OK') !== -1);
-              if (ok) {
-                form.style.display = 'none';
-                successBox.style.display = 'block';
-                if (typeof grecaptcha !== 'undefined' && grecaptcha.reset) grecaptcha.reset();
-              } else {
-                showRecaptchaHint('Sorry, there was a problem sending your message. Please try again.');
-                if (typeof grecaptcha !== 'undefined' && grecaptcha.reset) grecaptcha.reset();
-              }
-            })
-            .catch(function () {
-              showRecaptchaHint('Network error. Please try again.');
-              if (typeof grecaptcha !== 'undefined' && grecaptcha.reset) grecaptcha.reset();
-            })
-            .finally(function () { if (submitBtn) submitBtn.disabled = false; });
+        function resetCaptcha() {
+          if (typeof turnstile !== 'undefined' && turnstile.reset) turnstile.reset();
         }
 
         form.addEventListener('submit', function (e) {
           e.preventDefault();
-          if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
-            grecaptcha.ready(submitForm);
-          } else {
-            submitForm();
+          var submitBtn = form.querySelector('.submit-btn');
+
+          if (typeof turnstile === 'undefined' || !turnstile.getResponse) {
+            showHint('The captcha did not load. Please refresh the page and try again.');
+            return;
           }
+          var token = turnstile.getResponse();
+          if (!token) {
+            showHint('Please complete the captcha before sending.');
+            return;
+          }
+          if (captchaHint) captchaHint.hidden = true;
+          if (submitBtn) submitBtn.disabled = true;
+
+          var body = new FormData(form);
+          body.set('cf-turnstile-response', token);
+
+          // The Google Apps Script web app does not send CORS headers, so we POST
+          // with mode:'no-cors'. The request still reaches the server and the row
+          // is written; the response is opaque, so we treat resolution as success
+          // and rely on the server-side Turnstile check to reject bots.
+          fetch(form.action, { method: 'POST', mode: 'no-cors', body: body })
+            .then(function () {
+              form.style.display = 'none';
+              successBox.style.display = 'block';
+            })
+            .catch(function () {
+              showHint('Network error. Please try again.');
+              resetCaptcha();
+              if (submitBtn) submitBtn.disabled = false;
+            });
         });
 
         window.setTimeout(function () {
-          var wrap = document.getElementById('recaptcha-wrap');
+          var wrap = document.getElementById('captcha-wrap');
           if (!wrap || wrap.querySelector('iframe')) return;
-          showRecaptchaHint('reCAPTCHA did not load. If you manage this site, add dashchat.org and localhost to your reCAPTCHA domain list in Google Admin.');
+          showHint('The captcha did not load. Please refresh the page and try again.');
         }, 8000);
       })();
     </script>
