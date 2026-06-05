@@ -226,7 +226,7 @@ function buildPostHtml(post) {
   <title>${escapedTitle} — ${SITE_NAME}</title>
   <meta name="description" content="${escapedDesc}" />
   <link rel="canonical" href="${url}" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="alternate" type="application/rss+xml" title="${SITE_NAME} RSS" href="${SITE_URL}/rss.xml" />
 
@@ -357,7 +357,7 @@ function buildBlogIndex(posts) {
   <title>Blog — ${SITE_NAME}</title>
   <meta name="description" content="Updates and thoughts from the ${SITE_NAME} team." />
   <link rel="canonical" href="${SITE_URL}/blog" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="alternate" type="application/rss+xml" title="${SITE_NAME} RSS" href="${SITE_URL}/rss.xml" />
 
