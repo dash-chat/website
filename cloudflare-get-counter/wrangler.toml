@@ -1,0 +1,18 @@
+# Cloudflare Worker config for the Dash Chat /get scan counter.
+# Deploy with:  npx wrangler deploy   (from this directory)
+# See README.md for first-time setup (D1 database + STATS_TOKEN secret).
+
+name = "dashchat-get-counter"
+main = "src/worker.js"
+compatibility_date = "2024-11-01"
+
+# D1 database binding. Create it once with:
+#   npx wrangler d1 create dashchat-get-counter
+# then paste the printed database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "dashchat-get-counter"
+database_id = "TODO-paste-d1-database-id-here"
+
+# STATS_TOKEN (the bearer token for GET /stats) is a SECRET, not set here.
+# Set it with:  npx wrangler secret put STATS_TOKEN
