@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Download Dash Chat</title>
+    <!-- Keep this page quiet: not indexed, not crawled-onward. Reachable only
+         via /get or a direct link; deliberately kept out of sitemap.xml and not
+         linked from the main site, so it isn't surfaced to general web traffic
+         or search engines while downloads are still low-key. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #fcfcfc; --surface: #fff; --surface-2: #f6f7f9;
+        --text: #111; --muted: #555; --faint: #888; --border: #e5e7eb;
+        --accent: #1D4ED8; --accent-hover: #1e40af;
+        --focus-ring: color-mix(in srgb, var(--accent) 22%, transparent);
+        --shadow-soft: 0 16px 40px rgba(17, 24, 39, 0.08);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0c0f; --surface: #111318; --surface-2: #0f1116;
+          --text: #e5e7eb; --muted: #94a3b8; --faint: #64748b; --border: #1e293b;
+          --accent: #60a5fa; --accent-hover: #93c5fd;
+        }
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: "Rubik", system-ui, sans-serif;
+        background: var(--bg); color: var(--text); line-height: 1.62;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh; display: flex; flex-direction: column;
+        align-items: center; justify-content: flex-start; padding: 56px 20px;
+      }
+      a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+      .card { width: 100%; max-width: 480px; text-align: center; }
+      .logo { width: 64px; height: 64px; margin: 0 auto 18px; display: block; }
+      h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+      .tagline { font-size: 0.98rem; color: var(--muted); margin-bottom: 30px; }
+
+      /* Primary recommended download */
+      .primary-wrap { margin-bottom: 14px; }
+      .primary {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        width: 100%; padding: 16px 24px;
+        font-size: 1.05rem; font-weight: 600; font-family: inherit;
+        color: #fff; background: var(--accent); border: none; border-radius: 12px;
+        text-decoration: none; box-shadow: var(--shadow-soft);
+        transition: background 0.15s, transform 0.15s;
+      }
+      .primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+      .primary .icon { width: 24px; height: 24px; display: flex; }
+      .primary .icon svg { width: 24px; height: 24px; }
+      .primary-alt { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+      .primary-alt a { color: var(--accent); text-decoration: none; }
+      .primary-alt a:hover { text-decoration: underline; text-underline-offset: 2px; }
+      .version { font-size: 0.8rem; color: var(--faint); margin-top: 6px; }
+
+      .divider { display: flex; align-items: center; gap: 12px; margin: 30px 0 18px; color: var(--faint); font-size: 0.8rem; }
+      .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+      .groups { display: flex; flex-direction: column; gap: 22px; text-align: start; }
+      .group h2 { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin-bottom: 10px; }
+      .opt {
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 14px; margin-bottom: 8px;
+        background: var(--surface); color: var(--text);
+        border: 1px solid var(--border); border-radius: 10px;
+        text-decoration: none; font-weight: 500; font-size: 0.96rem;
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      .opt:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .opt .icon { flex: 0 0 24px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+      .opt .icon svg { width: 24px; height: 24px; display: block; }
+      .opt .label { flex: 1 1 auto; }
+      .opt .sub { color: var(--faint); font-size: 0.82rem; font-weight: 400; }
+
+      .footnote { margin-top: 30px; font-size: 0.82rem; color: var(--faint); line-height: 1.6; }
+      .footnote a { color: var(--accent); text-decoration: none; }
+      .footnote a:hover { text-decoration: underline; text-underline-offset: 2px; }
+      .hidden { display: none !important; }
+      .loading { color: var(--muted); font-size: 0.92rem; padding: 8px 0; }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <svg class="logo" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#1D4ED8" />
+        <path d="M14 22c0-3.3 2.7-6 6-6h24c3.3 0 6 2.7 6 6v14c0 3.3-2.7 6-6 6H28l-9 8v-8h-1c-2.2 0-4-1.8-4-4V22z" fill="#fff" />
+        <circle cx="24" cy="29" r="3" fill="#1D4ED8" />
+        <circle cx="32" cy="29" r="3" fill="#1D4ED8" />
+        <circle cx="40" cy="29" r="3" fill="#1D4ED8" />
+      </svg>
+      <h1 dir="auto">Download Dash Chat</h1>
+      <p class="tagline" dir="auto">Stay connected when systems fail.</p>
+
+      <!-- Recommended download for the detected platform (filled in by JS) -->
+      <div class="primary-wrap">
+        <div id="primary-slot"><div class="loading" id="loading" dir="auto">Finding the right build…</div></div>
+        <div class="primary-alt" id="primary-alt"></div>
+        <div class="version" id="version"></div>
+      </div>
+
+      <div class="divider"><span dir="auto">All platforms</span></div>
+
+      <!-- Full list. Asset hrefs are filled from the GitHub release; the store
+           links are static. Anything we can't resolve is hidden. -->
+      <div class="groups">
+        <div class="group">
+          <h2 dir="auto">Mobile</h2>
+          <a class="opt" href="https://apps.apple.com/us/app/dash-chat-messenger/id6759798505" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"/></svg></span>
+            <span class="label">iPhone &amp; iPad <span class="sub">App Store</span></span>
+          </a>
+          <a class="opt" href="https://play.google.com/store/apps/details?id=studio.darksoil.dashchat" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.6 2.3a1.2 1.2 0 0 0-.6 1.06v17.28c0 .45.24.85.62 1.05L13.2 12 3.6 2.3z" fill="#2196F3"/><path d="M16.9 8.35 13.2 12l3.7 3.65 4.3-2.45c.78-.45.78-1.95 0-2.4L16.9 8.35z" fill="#FFC107"/><path d="m3.6 2.3 9.6 9.7 3.7-3.65L5.1 1.78a1.2 1.2 0 0 0-1.5.52z" fill="#4CAF50"/><path d="m13.2 12-9.6 9.7c.4.42 1.02.5 1.5.23l11.8-6.73L13.2 12z" fill="#F44336"/></svg></span>
+            <span class="label">Android <span class="sub">Google Play</span></span>
+          </a>
+          <a class="opt asset hidden" data-asset="android_apk" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#3DDC84"><path d="M7.2 4.6 6 2.8a.4.4 0 0 1 .7-.4l1.2 1.9a8 8 0 0 1 8.2 0l1.2-1.9a.4.4 0 0 1 .7.4l-1.2 1.8A7.7 7.7 0 0 1 20.5 11H3.5a7.7 7.7 0 0 1 3.7-6.4zM8.5 8.2a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zm7 0a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zM3.5 12.2h17V19a1.4 1.4 0 0 1-1.4 1.4h-1.3v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H9.6v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H5.9A1.4 1.4 0 0 1 4.5 19v-6.8z"/></svg></span>
+            <span class="label">Android <span class="sub">APK — install directly, no Play Store</span></span>
+          </a>
+        </div>
+
+        <div class="group" id="group-desktop">
+          <h2 dir="auto">Desktop</h2>
+          <a class="opt asset hidden" data-asset="mac_arm" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"/></svg></span>
+            <span class="label">macOS <span class="sub">Apple Silicon (M1–M4) · .dmg</span></span>
+          </a>
+          <a class="opt asset hidden" data-asset="mac_intel" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"/></svg></span>
+            <span class="label">macOS <span class="sub">Intel · .dmg</span></span>
+          </a>
+          <a class="opt asset hidden" data-asset="win_exe" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0078D4"><path d="M3 5.4 10.4 4.4v7.1H3V5.4zM11.3 4.3 21 3v8.5h-9.7V4.3zM3 12.5h7.4v7.1L3 18.6v-6.1zM11.3 12.5H21V21l-9.7-1.3v-7.2z"/></svg></span>
+            <span class="label">Windows <span class="sub">Installer · .exe</span></span>
+          </a>
+          <a class="opt asset hidden" data-asset="win_msi" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0078D4"><path d="M3 5.4 10.4 4.4v7.1H3V5.4zM11.3 4.3 21 3v8.5h-9.7V4.3zM3 12.5h7.4v7.1L3 18.6v-6.1zM11.3 12.5H21V21l-9.7-1.3v-7.2z"/></svg></span>
+            <span class="label">Windows <span class="sub">MSI package · .msi</span></span>
+          </a>
+          <a class="opt asset hidden" data-asset="linux" href="#" rel="noopener">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-2 0-3.2 1.6-3.2 3.7 0 1.2.1 2-.5 3-.7 1.1-2.3 2.6-2.3 5.6 0 .8-.6 1.3-.9 2-.4.8.1 1.4.9 1.5.7.1 1.6.5 2.4 1.3.6.6 1.7.6 2.3 0 .5-.5 1.1-.5 1.6 0 .6.6 1.7.6 2.3 0 .8-.8 1.7-1.2 2.4-1.3.8-.1 1.3-.7.9-1.5-.3-.7-.9-1.2-.9-2 0-3-1.6-4.5-2.3-5.6-.6-1-.5-1.8-.5-3C15.2 3.6 14 2 12 2zm-1.5 4.1c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9zm3 0c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9zM12 8.7c.8 0 1.7.4 2 .9.2.3-.1.5-.5.7-.4.2-1 .6-1.5.6s-1.1-.4-1.5-.6c-.4-.2-.7-.4-.5-.7.3-.5 1.2-.9 2-.9z"/></svg></span>
+            <span class="label">Linux <span class="sub">AppImage · x86-64</span></span>
+          </a>
+        </div>
+      </div>
+
+      <p class="footnote" dir="auto">
+        <span id="checksums-note"></span>
+        Every build is published on
+        <a href="https://github.com/dash-chat/dash-chat/releases" rel="noopener" target="_blank">GitHub Releases</a>
+        with signatures &amp; checksums.<br />
+        End-to-end encrypted · Open source under
+        <a href="https://github.com/dash-chat/dash-chat/blob/main/LICENSE" rel="noopener" target="_blank">AGPL-3.0</a>.
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var REPO = "dash-chat/dash-chat";
+        var RELEASES_PAGE = "https://github.com/" + REPO + "/releases";
+
+        // Map our slots to a predicate over the asset filename. Tauri names
+        // assets like "Dash.Chat_0.18.0_aarch64.dmg".
+        var MATCHERS = {
+          mac_arm:     function (n) { return /aarch64\.dmg$/i.test(n); },
+          mac_intel:   function (n) { return /x64\.dmg$/i.test(n); },
+          win_exe:     function (n) { return /x64-setup\.exe$/i.test(n) || /\.exe$/i.test(n); },
+          win_msi:     function (n) { return /\.msi$/i.test(n); },
+          linux:       function (n) { return /\.AppImage$/i.test(n); },
+          android_apk: function (n) { return /\.apk$/i.test(n); }
+        };
+
+        // ---- Detect the visitor's platform --------------------------------
+        var ua = navigator.userAgent || "";
+        var os = "other";
+        if (/Windows/i.test(ua)) os = "win";
+        else if (/Android/i.test(ua)) os = "android";
+        else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) os = "ios";
+        else if (/Macintosh|Mac OS X/i.test(ua)) os = "mac";
+        else if (/Linux/i.test(ua)) os = "linux";
+
+        // Best-effort: which desktop slot to recommend, plus a friendly label.
+        function pickPrimarySlot(macArch) {
+          if (os === "mac") return macArch === "x86" ? "mac_intel" : "mac_arm";
+          if (os === "win") return "win_exe";
+          if (os === "linux") return "linux";
+          return null; // mobile / unknown handled separately
+        }
+
+        var els = {
+          slot: document.getElementById("primary-slot"),
+          alt: document.getElementById("primary-alt"),
+          version: document.getElementById("version"),
+          loading: document.getElementById("loading"),
+          checksums: document.getElementById("checksums-note")
+        };
+
+        function iconFor(slot) {
+          // Reuse the matching list icon's markup by cloning from the DOM.
+          var src = document.querySelector('.opt[data-asset="' + slot + '"] .icon');
+          return src ? src.innerHTML : "";
+        }
+        var LABELS = {
+          mac_arm: "Download for macOS (Apple Silicon)",
+          mac_intel: "Download for macOS (Intel)",
+          win_exe: "Download for Windows",
+          win_msi: "Download for Windows (MSI)",
+          linux: "Download for Linux"
+        };
+
+        function renderPrimary(href, slot) {
+          els.slot.innerHTML =
+            '<a class="primary" href="' + href + '" rel="noopener">' +
+            '<span class="icon" aria-hidden="true">' + iconFor(slot) + "</span>" +
+            "<span>" + LABELS[slot] + "</span></a>";
+        }
+
+        function renderPrimaryStore(href, label) {
+          els.slot.innerHTML =
+            '<a class="primary" href="' + href + '" rel="noopener"><span>' + label + "</span></a>";
+        }
+
+        function fallback() {
+          // API unreachable or no matching assets: send people to the releases
+          // page, which always works, and keep the store links above.
+          els.slot.innerHTML =
+            '<a class="primary" href="' + RELEASES_PAGE + '" rel="noopener" target="_blank"><span>View all downloads on GitHub</span></a>';
+          els.alt.textContent = "";
+        }
+
+        // ---- Fetch the newest STABLE release that actually has assets ------
+        // We deliberately do NOT use /releases/latest: during a publish it can
+        // momentarily point at a prerelease with no assets. Listing + filtering
+        // is robust to that.
+        fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=15", {
+          headers: { Accept: "application/vnd.github+json" }
+        })
+          .then(function (r) { if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+          .then(function (releases) {
+            var rel = null;
+            for (var i = 0; i < releases.length; i++) {
+              var R = releases[i];
+              if (R.prerelease || R.draft) continue;
+              var hasDesktop = (R.assets || []).some(function (a) {
+                return /\.(dmg|exe|msi|AppImage)$/i.test(a.name);
+              });
+              if (hasDesktop) { rel = R; break; }
+            }
+            if (!rel) return fallback();
+
+            // Resolve each slot to a download URL and reveal the matching rows.
+            var resolved = {};
+            Object.keys(MATCHERS).forEach(function (slot) {
+              var match = (rel.assets || []).filter(function (a) { return MATCHERS[slot](a.name); })[0];
+              if (!match) return;
+              resolved[slot] = match.browser_download_url;
+              var row = document.querySelector('.opt[data-asset="' + slot + '"]');
+              if (row) { row.href = match.browser_download_url; row.classList.remove("hidden"); }
+            });
+
+            els.version.textContent = (rel.tag_name || "") + " · published " +
+              (rel.published_at ? rel.published_at.slice(0, 10) : "");
+            els.checksums.textContent = "";
+
+            // Recommended button for this visitor.
+            if (os === "ios") {
+              renderPrimaryStore("https://apps.apple.com/us/app/dash-chat-messenger/id6759798505", "Get it on the App Store");
+              els.alt.innerHTML = '';
+              return;
+            }
+            if (os === "android") {
+              renderPrimaryStore("https://play.google.com/store/apps/details?id=studio.darksoil.dashchat", "Get it on Google Play");
+              if (resolved.android_apk) {
+                els.alt.innerHTML = 'Or <a href="' + resolved.android_apk + '" rel="noopener">download the APK directly</a>.';
+              }
+              return;
+            }
+
+            // Desktop: arch detection (Chromium exposes it; Safari does not).
+            var slot = pickPrimarySlot(undefined);
+            function finishDesktop(macArch) {
+              slot = pickPrimarySlot(macArch);
+              if (slot && resolved[slot]) {
+                renderPrimary(resolved[slot], slot);
+                // Offer the obvious alternates.
+                if (os === "mac") {
+                  var other = slot === "mac_arm" ? "mac_intel" : "mac_arm";
+                  var otherLabel = slot === "mac_arm" ? "Mac with an Intel chip?" : "Mac with Apple Silicon?";
+                  if (resolved[other]) els.alt.innerHTML = otherLabel + ' <a href="' + resolved[other] + '" rel="noopener">Download instead</a>.';
+                } else if (os === "win" && resolved.win_msi) {
+                  els.alt.innerHTML = 'Prefer an <a href="' + resolved.win_msi + '" rel="noopener">.msi package</a>?';
+                }
+              } else {
+                // Unknown desktop/OS: no confident pick — show releases page,
+                // but the full list below is already populated.
+                els.slot.innerHTML =
+                  '<a class="primary" href="' + RELEASES_PAGE + '" rel="noopener" target="_blank"><span>Choose your download</span></a>';
+                els.alt.textContent = "Pick your platform from the list below.";
+              }
+            }
+
+            if (os === "mac" && navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+              navigator.userAgentData.getHighEntropyValues(["architecture"])
+                .then(function (d) { finishDesktop(d.architecture); })
+                .catch(function () { finishDesktop(undefined); }); // default → Apple Silicon
+            } else {
+              finishDesktop(undefined);
+            }
+          })
+          .catch(function () { fallback(); });
+      })();
+    </script>
+  </body>
+</html>
