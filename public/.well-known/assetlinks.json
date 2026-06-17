@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "studio.darksoil.dashchat",
       "sha256_cert_fingerprints": [
-        $CERT_FINGERPRINT
+        "FINGERPRINT_GOES_HERE"
       ]
     }
   }
