@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+  <h1>Test</h1>
+  <input type="text" id="code" placeholder="Enter code" oninput="update(this.value)">
+  <br><br>
+  <a id="link"></a>
+  <script>
+    function update(val) {
+      const link = document.getElementById('link');
+      const url = 'https://dashchat.org/add-contact/' + val;
+      link.href = val ? url : '';
+      link.textContent = val ? url : '';
+    }
+  </script>
+
+</body>
+</html>
