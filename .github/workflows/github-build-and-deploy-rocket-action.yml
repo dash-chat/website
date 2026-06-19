@@ -1,6 +1,9 @@
 name: Build and Deploy
-on: [push]
-permissions: 
+on:
+  push:
+    branches:
+      - main
+permissions:
   contents: write
 jobs:
   build-and-deploy:
@@ -14,7 +17,7 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Install and Build 🔧 
+      - name: Install and Build 🔧
         run: |
           nix develop --command bash -c "npm i && ls node_modules && ls node_modules/.bin && npm run build"
 
