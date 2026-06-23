@@ -104,16 +104,20 @@
           return;
         }
 
-        // Auto-attempt on desktop
+        // Auto-attempt on desktop (except Firefox, which commonly blocks
+        // non-user-initiated custom protocol launches).
         var appOpened = false;
         document.addEventListener('visibilitychange', function () {
           if (document.hidden) appOpened = true;
         });
 
-        // Small delay so visibilitychange can fire before we check
-        setTimeout(function () {
-          window.location.href = schemeUrl;
-        }, 50);
+        var isFirefox = /Firefox\//i.test(ua) && !/Seamonkey\//i.test(ua);
+
+        if (!isFirefox) {
+          setTimeout(function () {
+            window.location.href = schemeUrl;
+          }, 50);
+        }
 
         setTimeout(function () {
           if (!appOpened && !document.hidden) {
