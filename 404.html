@@ -14,5 +14,16 @@
     </div>
 
     <script src="clean-urls.js"></script>
+    <script>
+      // Intercept deep-link paths: /add-contact/CODE → /add-contact/?code=CODE
+      (function () {
+        var path = window.location.pathname;
+        var m = path.match(/^\/add-contact\/([^/]+)\/?$/);
+        if (m) {
+          var code = m[1];
+          window.location.replace('/add-contact/?code=' + encodeURIComponent(code));
+        }
+      })();
+    </script>
 </body>
 </html>

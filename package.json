@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "node build-blog.js && vite build"
+    "build": "node build-blog.js && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@mdi/js": "^7.4.47",
@@ -15,6 +16,7 @@
     "vite": "^4.0.0"
   },
   "devDependencies": {
+    "@types/node": "^26.0.0",
     "gray-matter": "^4.0.3",
     "marked": "^18.0.4"
   }
