@@ -17,10 +17,35 @@ export default defineConfig({
       name: 'blog-routing',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          if (req.url === '/blog') req.url = '/blog.html';
-          // Rewrite /add-contact/CODE → /add-contact/?code=CODE
-          const m = req.url?.match(/^\/add-contact\/([^/?#]+)\/?$/);
-          if (m) req.url = `/add-contact/?code=${encodeURIComponent(m[1])}`;
+          const url = req.url ?? '/';
+
+          // /blog → /blog.html
+          if (url === '/blog') { req.url = '/blog.html'; return next(); }
+
+          // /add-contact/CODE → redirect to /add-contact/?code=CODE
+          const addContactCode = url.match(/^\/add-contact\/([^/?#]+)\/?$/);
+          if (addContactCode) {
+            res.writeHead(302, { Location: `/add-contact/?code=${encodeURIComponent(addContactCode[1])}` });
+            res.end();
+            return;
+          }
+
+          // /add-contact or /add-contact/ or /add-contact?… → /add-contact/index.html
+          if (url.match(/^\/add-contact(\/(\?.*)?)?$/)) {
+            req.url = '/add-contact/index.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
+            return next();
+          }
+
+          // Extensionless paths: try public/<path>.html (mirrors GitHub Pages behaviour)
+          const rawPath = url.split('?')[0];
+          if (rawPath !== '/' && !rawPath.includes('.')) {
+            const candidate = path.resolve(process.cwd(), 'public', rawPath.replace(/^\//, '') + '.html');
+            if (fs.existsSync(candidate)) {
+              req.url = rawPath + '.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
+              return next();
+            }
+          }
+
           next();
         });
       },
