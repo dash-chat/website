@@ -152,7 +152,7 @@
               <div class="form-label" style="margin-bottom: 6px;">Tell us a bit?</div>
               <textarea id="details" name="details" rows="4" placeholder="Org/group, size, Android/iOS mix, what you have in mind."></textarea>
             </div>
-            <div id="captcha-wrap"><div class="cf-turnstile" data-sitekey="0x4AAAAAADbVh65lg2g7DAvL"></div></div>
+            <div id="captcha-wrap"><div class="cf-turnstile" data-sitekey="0x4AAAAAADbVh65lg2g7DAvL" data-callback="dashChatCaptchaDone"></div></div>
             <p id="captcha-hint" class="form-hint" hidden></p>
             <button type="submit" class="submit-btn">Send &rarr;</button>
           </form>
@@ -253,9 +253,21 @@
             });
         });
 
+        // Turnstile calls this once the challenge succeeds.
+        window.dashChatCaptchaDone = function () {
+          if (captchaHint) captchaHint.hidden = true;
+        };
+
         window.setTimeout(function () {
           var wrap = document.getElementById('captcha-wrap');
-          if (!wrap || wrap.querySelector('iframe')) return;
+          if (!wrap) return;
+          // Turnstile may render inside a closed shadow DOM, so an iframe check
+          // alone gives false negatives; the hidden response input is injected
+          // into the container itself once the widget has rendered.
+          if (wrap.querySelector('iframe, input[name="cf-turnstile-response"]')) return;
+          try {
+            if (typeof turnstile !== 'undefined' && turnstile.getResponse && turnstile.getResponse()) return;
+          } catch (err) { /* widget not rendered yet; fall through to the hint */ }
           showHint('The captcha did not load. Please refresh the page and try again.');
         }, 8000);
       })();
