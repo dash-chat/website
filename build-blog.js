@@ -124,8 +124,13 @@ function sharedStyles() {
     }
     .nav-inner {
       max-width: 960px; margin: 0 auto; padding: 0 24px;
-      height: 56px; display: flex; align-items: center; justify-content: flex-end;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
     }
+    .nav-brand {
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); text-decoration: none; transition: opacity 0.15s;
+    }
+    .nav-brand:hover { opacity: 0.7; }
     .nav-links { display: flex; align-items: center; gap: 20px; }
     .nav-links a {
       font-size: 0.9rem; font-weight: 500;
@@ -149,6 +154,7 @@ function navHtml() {
   return `
   <nav>
     <div class="nav-inner">
+      <a href="/" class="nav-brand">Dash Chat</a>
       <div class="nav-links">
         <a href="/blog">Blog</a>
         <a href="/#get-involved">Get involved</a>
