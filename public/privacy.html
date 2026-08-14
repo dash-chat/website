@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Dash Chat</title>
+    <meta name="description" content="What Dash Chat processes, and why. Dash Chat is designed so that we know as little about you as possible." />
+    <link rel="canonical" href="https://dashchat.org/privacy" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Privacy Policy — Dash Chat" />
+    <meta property="og:description" content="What Dash Chat processes, and why. Dash Chat is designed so that we know as little about you as possible." />
+    <meta property="og:url" content="https://dashchat.org/privacy" />
+
+    <style>
+      :root {
+        --bg: #fcfcfc; --surface: #fff;
+        --text: #111; --muted: #555; --faint: #888; --border: #e5e7eb;
+        --accent: #6E7BFF; --accent-hover: #5662E6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0c0f; --surface: #111318;
+          --text: #e5e7eb; --muted: #94a3b8; --faint: #64748b; --border: #1e293b;
+          --accent: #8C97FF; --accent-hover: #B0B8FF;
+        }
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: "Rubik", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.62; -webkit-font-smoothing: antialiased; }
+      nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+      @supports (backdrop-filter: blur(12px)) { nav { background: color-mix(in srgb, var(--bg) 82%, transparent); } }
+      .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: flex-end; }
+      .nav-links { display: flex; align-items: center; gap: 22px; }
+      .nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+      .nav-links a:hover { color: var(--text); }
+      .nav-links .gh-link { display: flex; align-items: center; color: var(--muted); transition: color 0.15s; }
+      .nav-links .gh-link:hover { color: var(--text); }
+      .nav-links .gh-link svg { display: block; }
+      a:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 22%, transparent); outline-offset: 3px; }
+
+      .doc { max-width: 720px; margin: 0 auto; padding: 132px 24px 24px; }
+      .doc-header { padding-bottom: 30px; margin-bottom: 34px; border-bottom: 1px solid var(--border); }
+      .doc-header h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); font-weight: 700; line-height: 1.15; margin-bottom: 10px; }
+      .updated { font-size: 0.9rem; color: var(--faint); }
+
+      .prose p { color: var(--muted); font-size: 1.02rem; line-height: 1.75; margin-bottom: 18px; }
+      .prose h2 { font-size: 1.25rem; font-weight: 600; line-height: 1.3; color: var(--text); margin: 44px 0 16px; }
+      .prose ul { list-style: none; margin-bottom: 22px; }
+      .prose li { position: relative; color: var(--muted); font-size: 1.02rem; line-height: 1.75; padding-left: 22px; margin-bottom: 14px; }
+      .prose li::before { content: ""; position: absolute; left: 4px; top: 0.78em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+      .prose strong { color: var(--text); font-weight: 600; }
+      .prose a { color: var(--accent); text-decoration: none; }
+      .prose a:hover { text-decoration: underline; text-underline-offset: 2px; }
+      .prose address { font-style: normal; color: var(--muted); font-size: 1.02rem; line-height: 1.75; }
+
+      footer { margin-top: 64px; border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; font-size: 0.85rem; color: var(--faint); }
+      footer a { color: var(--accent); text-decoration: none; }
+      footer a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+      @media (max-width: 480px) {
+        .nav-inner { padding: 0 20px; }
+        .nav-links { gap: 18px; }
+        .doc { padding: 110px 20px 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-inner">
+        <div class="nav-links">
+          <a href="/blog">Blog</a>
+          <a href="/#get-involved">Get involved</a>
+          <a href="https://github.com/dash-chat" target="_blank" rel="noopener noreferrer" class="gh-link" title="GitHub">
+            <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="doc">
+      <header class="doc-header">
+        <h1>Dash Chat Privacy Policy</h1>
+        <p class="updated">Last updated: 11 August 2026</p>
+      </header>
+
+      <article class="prose">
+        <p>Dash Chat is designed so that we know as little about you as possible. This policy describes what little we do process, and why.</p>
+
+        <p>Dash Chat is provided by Darksoil Studio Limited, a company registered in England and Wales (company number 15640125). For the purposes of UK data protection law, Darksoil is the data controller. Contact: <a href="mailto:support@dashchat.org">support@dashchat.org</a>.</p>
+
+        <h2>Encryption and development stage</h2>
+
+        <p>Dash Chat is early-stage software under active development. Messages are not yet end-to-end encrypted. End-to-end encryption is in development; when it ships, we will update this policy to describe exactly what it protects.</p>
+
+        <p>Until then, you should assume that messages held on server infrastructure we operate could be technically accessible to us while awaiting delivery. We do not read user messages.</p>
+
+        <p>Your message history is stored on your own devices, under your control. Beyond the temporary delivery storage described below, we do not hold copies of your messages.</p>
+
+        <h2>What we process</h2>
+
+        <ul>
+          <li><strong>Account information.</strong> When you create an account, Dash Chat generates cryptographic keys on your device. Servers we operate process the account identifiers needed to route and deliver messages. Dash Chat does not require a phone number or email address to register.</li>
+          <li><strong>Messages in transit.</strong> When you and a contact are not online at the same time and your communication uses a mailbox server we operate, the server temporarily holds the message until it is delivered. Held messages are deleted after a fixed period.</li>
+          <li><strong>Peer-to-peer and local network connections.</strong> Where your devices connect directly or over a local network, your communication does not pass through our infrastructure at all, and we process nothing.</li>
+          <li><strong>Operational data.</strong> Servers we operate may keep limited operational records needed to run and secure the service. We are documenting exactly what these contain and will update this policy with specifics.</li>
+        </ul>
+
+        <h2>What we don't do</h2>
+
+        <p>We do not sell, rent, or monetise your personal data or content in any way — ever. There are no advertisements in Dash Chat. We do not build profiles of our users.</p>
+
+        <h2>Legal bases</h2>
+
+        <p>Where UK data protection law applies, we process the information above as necessary to provide the service you request (performance of a contract) and for our legitimate interests in keeping the service secure and preventing abuse.</p>
+
+        <h2>Data retention</h2>
+
+        <p>We keep the information described above only as long as needed for the purposes described.</p>
+
+        <h2>Your rights</h2>
+
+        <p>Under UK data protection law you may have rights to access, correct, delete, or restrict the processing of your personal data, and to object to processing. Because we hold very little about you, the practical answer to most requests is that there is little to retrieve or delete — but you can contact us at <a href="mailto:support@dashchat.org">support@dashchat.org</a> and we will respond. You also have the right to complain to the Information Commissioner's Office (<a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">ico.org.uk</a>).</p>
+
+        <h2>Children</h2>
+
+        <p>Dash Chat is not intended for anyone under 13. The minimum age to use Dash Chat without parental approval may be higher in your country.</p>
+
+        <h2>Changes</h2>
+
+        <p>We may update this policy. Material changes will be noted in the application or on our website.</p>
+
+        <h2>Contact</h2>
+
+        <address>
+          Darksoil Studio Limited<br />
+          First Floor Secure House, Lulworth Close<br />
+          C/O Xeinadin Chandler's Ford<br />
+          Eastleigh, SO53 3TL, United Kingdom<br />
+          <a href="mailto:support@dashchat.org">support@dashchat.org</a>
+        </address>
+      </article>
+    </main>
+
+    <footer>
+      Open source under the <a href="https://github.com/dash-chat/dash-chat/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">AGPL-3.0</a> license.
+    </footer>
+  </body>
+</html>
