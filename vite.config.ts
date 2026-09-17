@@ -30,18 +30,17 @@ export default defineConfig({
             return;
           }
 
-          // /add-contact or /add-contact/ or /add-contact?… → /add-contact/index.html
-          if (url.match(/^\/add-contact(\/(\?.*)?)?$/)) {
-            req.url = '/add-contact/index.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
-            return next();
-          }
-
-          // Extensionless paths: try public/<path>.html (mirrors GitHub Pages behaviour)
+          // Extensionless paths: try public/<path>.html, then public/<path>/index.html
+          // (mirrors GitHub Pages behaviour, e.g. /privacy, /get, /add-contact/)
           const rawPath = url.split('?')[0];
           if (rawPath !== '/' && !rawPath.includes('.')) {
-            const candidate = path.resolve(process.cwd(), 'public', rawPath.replace(/^\//, '') + '.html');
-            if (fs.existsSync(candidate)) {
-              req.url = rawPath + '.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
+            const base = rawPath.replace(/^\//, '');
+            const candidates = base.endsWith('/')
+              ? [base + 'index.html']
+              : [base + '.html', base + '/index.html'];
+            const match = candidates.find(c => fs.existsSync(path.resolve(process.cwd(), 'public', c)));
+            if (match) {
+              req.url = '/' + match + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
               return next();
             }
           }
