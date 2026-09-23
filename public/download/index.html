@@ -10,6 +10,8 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- The detected-platform block is styled by this shared sheet, as on /testing. -->
+    <link rel="stylesheet" href="/css/platform-pick.css" />
     <style>
       :root {
         --bg: #fcfcfc; --surface: #fff; --surface-2: #f6f7f9;
@@ -41,28 +43,7 @@
       h1 { font-size: 1.55rem; font-weight: 700; margin-bottom: 6px; }
       .tagline { font-size: 0.96rem; color: var(--muted); margin-bottom: 30px; }
 
-      /* ---- detected-platform primary block ---- */
-      .primary { margin-bottom: 26px; min-height: 56px; }
-      .loading { color: var(--muted); font-size: 0.92rem; padding: 14px 0; }
-      .pc-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); margin-bottom: 12px; }
-      .btn {
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 2px; padding: 14px 20px; border-radius: 12px; text-decoration: none;
-        font-weight: 600; font-size: 1rem; font-family: inherit; line-height: 1.25;
-        border: 1px solid transparent; transition: background .15s, transform .15s, border-color .15s;
-      }
-      .btn small { font-weight: 500; font-size: 0.76rem; opacity: 0.85; }
-      .btn:hover { transform: translateY(-1px); }
-      .btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow-soft); }
-      .btn-primary:hover { background: var(--accent-hover); }
-      .btn-outline { background: var(--surface); color: var(--text); border-color: var(--border); }
-      .btn-outline:hover { border-color: var(--accent); }
-      .chip-row { display: flex; gap: 10px; }
-      .chip-row .btn { flex: 1; }
-      .hint { margin-top: 11px; font-size: 0.82rem; color: var(--faint); line-height: 1.5; }
-      .hint a { color: var(--accent); text-decoration: none; }
-      .hint a:hover { text-decoration: underline; text-underline-offset: 2px; }
-      .recommend-tag { display: inline-block; margin-top: 2px; }
+      /* .primary, .btn, .chip-row and .hint come from /css/platform-pick.css. */
 
       /* ---- "more / all platforms" dropdowns ---- */
       .more-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); text-align: start; margin: 6px 4px 10px; }
@@ -138,142 +119,77 @@
         <a href="https://github.com/dash-chat/dash-chat/releases" rel="noopener" target="_blank">GitHub Releases</a>.</p>
     </main>
 
-    <script>
-      (function () {
-        "use strict";
-        var REPO = "dash-chat/dash-chat";
-        var RELEASES_PAGE = "https://github.com/" + REPO + "/releases";
-        var APP_STORE = "https://apps.apple.com/us/app/dash-chat-messenger/id6759798505";
-        var PLAY = "https://play.google.com/store/apps/details?id=studio.darksoil.dashchat";
+    <script type="module">
+      // OS detection, asset matching and the recommended-build button are
+      // shared with /testing.
+      import { os, resolveAssets, renderPrimary, button } from "/js/platform-pick.js";
 
-        // Tauri asset filenames look like "Dash.Chat_0.18.0_aarch64.dmg".
-        var MATCHERS = {
-          mac_arm:     function (n) { return /aarch64\.dmg$/i.test(n); },
-          mac_intel:   function (n) { return /x64\.dmg$/i.test(n); },
-          win_exe:     function (n) { return /x64-setup\.exe$/i.test(n) || /\.exe$/i.test(n); },
-          win_msi:     function (n) { return /\.msi$/i.test(n); },
-          linux:       function (n) { return /\.AppImage$/i.test(n); },
-          android_apk: function (n) { return /\.apk$/i.test(n); }
-        };
+      var REPO = "dash-chat/dash-chat";
+      var RELEASES_PAGE = "https://github.com/" + REPO + "/releases";
+      var APP_STORE = "https://apps.apple.com/us/app/dash-chat-messenger/id6759798505";
+      var PLAY = "https://play.google.com/store/apps/details?id=studio.darksoil.dashchat";
 
-        // ---- detect OS ----
-        var ua = navigator.userAgent || "";
-        var os = "other";
-        if (/Windows/i.test(ua)) os = "win";
-        else if (/Android/i.test(ua)) os = "android";
-        else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) os = "ios";
-        else if (/Macintosh|Mac OS X/i.test(ua)) os = "mac";
-        else if (/Linux/i.test(ua)) os = "linux";
+      var primaryEl = document.getElementById("primary");
+      var verEl = document.getElementById("ver");
+      var moreLabel = document.getElementById("more-label");
 
-        var primaryEl = document.getElementById("primary");
-        var verEl = document.getElementById("ver");
-        var moreLabel = document.getElementById("more-label");
+      function fallbackPrimary(msg) {
+        primaryEl.innerHTML = "";
+        primaryEl.appendChild(button(RELEASES_PAGE, "btn-outline", msg || "Choose your platform below"));
+      }
 
-        function esc(s) { return s; }
-        function btn(href, cls, title, sub) {
-          return '<a class="btn ' + cls + '" href="' + href + '" rel="noopener">' + title +
-                 (sub ? '<small>' + sub + '</small>' : '') + '</a>';
-        }
-        function fallbackPrimary(msg) {
-          primaryEl.innerHTML = btn(RELEASES_PAGE, "btn-outline", msg || "Choose your platform below", "");
-        }
+      fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=15", {
+        headers: { Accept: "application/vnd.github+json" }
+      })
+        .then(function (r) { if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+        .then(function (releases) {
+          var rel = null;
+          for (var i = 0; i < releases.length; i++) {
+            var R = releases[i];
+            if (R.prerelease || R.draft) continue;
+            if ((R.assets || []).some(function (a) { return /\.(dmg|exe|msi|AppImage)$/i.test(a.name); })) { rel = R; break; }
+          }
+          if (!rel) { fallbackPrimary("View all downloads on GitHub"); return; }
 
-        fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=15", {
-          headers: { Accept: "application/vnd.github+json" }
-        })
-          .then(function (r) { if (!r.ok) throw new Error("http " + r.status); return r.json(); })
-          .then(function (releases) {
-            var rel = null;
-            for (var i = 0; i < releases.length; i++) {
-              var R = releases[i];
-              if (R.prerelease || R.draft) continue;
-              if ((R.assets || []).some(function (a) { return /\.(dmg|exe|msi|AppImage)$/i.test(a.name); })) { rel = R; break; }
+          // Point each dropdown row at its asset; rows with no asset in this
+          // release go away, and so do dropdowns left with nothing live.
+          var urls = resolveAssets(rel);
+          document.querySelectorAll(".dl.asset").forEach(function (row) {
+            var url = urls[row.getAttribute("data-asset")];
+            if (url) row.href = url;
+            else row.classList.add("hidden");
+          });
+          document.querySelectorAll("details[data-os]").forEach(function (d) {
+            var links = d.querySelectorAll("a.dl:not(.hidden)");
+            if (!links.length) d.classList.add("hidden");
+          });
+
+          verEl.textContent = (rel.tag_name || "") + (rel.published_at ? " · " + rel.published_at.slice(0, 10) : "");
+
+          // ---- the recommended build for the detected platform ----
+          renderPrimary(primaryEl, {
+            urls: urls,
+            fallbackHref: RELEASES_PAGE,
+            ios: { href: APP_STORE, title: "Get it on the App Store" },
+            android: {
+              href: PLAY, title: "Get it on Google Play",
+              apkQuestion: "Can’t use the Play Store?", apkLinkText: "Download the APK directly"
             }
-            if (!rel) { fallbackPrimary("View all downloads on GitHub"); return; }
-
-            // Resolve each slot to a URL; reveal matching dropdown rows.
-            var u = {};
-            Object.keys(MATCHERS).forEach(function (slot) {
-              var m = (rel.assets || []).filter(function (a) { return MATCHERS[slot](a.name); })[0];
-              if (!m) return;
-              u[slot] = m.browser_download_url;
-              var row = document.querySelector('.dl[data-asset="' + slot + '"]');
-              if (row) { row.href = m.browser_download_url; row.classList.remove("hidden"); }
-            });
-            // Hide any dropdown whose every asset row is missing.
-            document.querySelectorAll("details[data-os]").forEach(function (d) {
-              var links = d.querySelectorAll("a.dl");
-              var anyLive = Array.prototype.some.call(links, function (a) { return a.getAttribute("href") && a.getAttribute("href") !== "#"; });
-              if (!anyLive) d.classList.add("hidden");
-            });
-
-            verEl.textContent = (rel.tag_name || "") + (rel.published_at ? " · " + rel.published_at.slice(0, 10) : "");
-
-            // ---- build the recommended block for the detected OS ----
-            buildPrimary(u);
-
+          }).then(function (pick) {
+            if (!pick.covered) {
+              // Unknown desktop/OS: no confident pick, the dropdowns cover it.
+              moreLabel.textContent = "Choose your platform";
+              primaryEl.innerHTML = "<div class=\"hint\" dir=\"auto\" style=\"margin-top:0\">Pick your platform below.</div>";
+              return;
+            }
             // The detected platform is fully covered by the primary block, so
             // remove its dropdown — "Other platforms" then means exactly that.
-            var mine = document.querySelector('details[data-os="' + os + '"]');
-            if (mine && os !== "other") mine.classList.add("hidden");
-          })
-          .catch(function () { fallbackPrimary("View all downloads on GitHub"); });
-
-        function buildPrimary(u) {
-          if (os === "mac") {
-            // We can't reliably tell Apple Silicon from Intel (only Chromium
-            // exposes it), so always present BOTH as clear buttons. Mark the
-            // best guess "recommended" but never hide the other behind a link.
-            var recommend = "arm"; // sensible default — most Macs since 2020
-            var done = function () {
-              var armRec = recommend === "arm";
-              moreLabel.textContent = "Other platforms";
-              primaryEl.innerHTML =
-                '<div class="pc-label" dir="auto">You’re on a Mac — pick your chip</div>' +
-                '<div class="chip-row">' +
-                  btn(u.mac_arm || RELEASES_PAGE, armRec ? "btn-primary" : "btn-outline", "Apple Silicon",
-                      "M1–M4" + (armRec ? " · recommended" : "")) +
-                  btn(u.mac_intel || RELEASES_PAGE, armRec ? "btn-outline" : "btn-primary", "Intel",
-                      "older Macs" + (armRec ? "" : " · recommended")) +
-                '</div>' +
-                '<div class="hint" dir="auto">Not sure?  menu → <strong>About This Mac</strong>. ' +
-                'A chip named M1/M2/M3/M4 is Apple Silicon; “Intel” means Intel.</div>';
-            };
-            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-              navigator.userAgentData.getHighEntropyValues(["architecture"])
-                .then(function (d) { if (d && d.architecture === "x86") recommend = "intel"; })
-                .catch(function () {})
-                .then(done);
-            } else { done(); }
-            return;
-          }
-          if (os === "win") {
             moreLabel.textContent = "Other platforms";
-            primaryEl.innerHTML = btn(u.win_exe || RELEASES_PAGE, "btn-primary", "Download for Windows", ".exe installer") +
-              (u.win_msi ? '<div class="hint" dir="auto">Prefer an installer package? <a href="' + u.win_msi + '" rel="noopener">Download the .msi</a>.</div>' : '');
-            return;
-          }
-          if (os === "linux") {
-            moreLabel.textContent = "Other platforms";
-            primaryEl.innerHTML = btn(u.linux || RELEASES_PAGE, "btn-primary", "Download for Linux", "AppImage · x86-64");
-            return;
-          }
-          if (os === "ios") {
-            moreLabel.textContent = "Other platforms";
-            primaryEl.innerHTML = btn(APP_STORE, "btn-primary", "Get it on the App Store", "");
-            return;
-          }
-          if (os === "android") {
-            moreLabel.textContent = "Other platforms";
-            primaryEl.innerHTML = btn(PLAY, "btn-primary", "Get it on Google Play", "") +
-              (u.android_apk ? '<div class="hint" dir="auto">Can’t use the Play Store? <a href="' + u.android_apk + '" rel="noopener">Download the APK directly</a>.</div>' : '');
-            return;
-          }
-          // Unknown desktop/OS: no confident pick — the dropdowns below cover it.
-          moreLabel.textContent = "Choose your platform";
-          primaryEl.innerHTML = '<div class="hint" dir="auto" style="margin-top:0">Pick your platform below.</div>';
-        }
-      })();
+            var mine = document.querySelector('details[data-os="' + pick.os + '"]');
+            if (mine) mine.classList.add("hidden");
+          });
+        })
+        .catch(function () { fallbackPrimary("View all downloads on GitHub"); });
     </script>
   </body>
 </html>
