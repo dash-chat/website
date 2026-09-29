@@ -8,129 +8,303 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Test Dash Chat</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Styles for the detected-platform block, shared with /download. -->
     <link rel="stylesheet" href="/css/platform-pick.css" />
 
     <style>
       :root {
-        --bg: #fcfcfc; --surface: #fff; --surface-2: #f6f7f9;
-        --text: #111; --muted: #555; --faint: #888; --border: #e5e7eb;
-        --accent: #6E7BFF; --accent-hover: #5662E6;
+        --bg: #fcfcfc;
+        --surface: #fff;
+        --surface-2: #f6f7f9;
+        --text: #111;
+        --muted: #555;
+        --faint: #888;
+        --border: #e5e7eb;
+        --accent: #6e7bff;
+        --accent-hover: #5662e6;
         --focus-ring: color-mix(in srgb, var(--accent) 22%, transparent);
         --shadow-soft: 0 16px 40px rgba(17, 24, 39, 0.08);
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0b0c0f; --surface: #111318; --surface-2: #0f1116;
-          --text: #e5e7eb; --muted: #94a3b8; --faint: #64748b; --border: #1e293b;
-          --accent: #8C97FF; --accent-hover: #B0B8FF;
+          --bg: #0b0c0f;
+          --surface: #111318;
+          --surface-2: #0f1116;
+          --text: #e5e7eb;
+          --muted: #94a3b8;
+          --faint: #64748b;
+          --border: #1e293b;
+          --accent: #8c97ff;
+          --accent-hover: #b0b8ff;
         }
       }
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      [hidden] { display: none !important; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      [hidden] {
+        display: none !important;
+      }
       body {
         font-family: "Rubik", system-ui, sans-serif;
-        background: var(--bg); color: var(--text); line-height: 1.62;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.62;
         -webkit-font-smoothing: antialiased;
-        min-height: 100vh; display: flex; flex-direction: column;
-        align-items: center; padding: 48px 20px 32px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px 20px 32px;
       }
-      a:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+      a:focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
+      }
 
       .card {
-        width: 100%; max-width: 380px; text-align: center;
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
       }
       .logo {
-        width: 64px; height: 64px; margin: 0 auto 18px; display: block;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 18px;
+        display: block;
       }
-      .logo-link { display: block; }
+      .logo-link {
+        display: block;
+      }
       .app-name {
-        font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 4px;
       }
       .tagline {
-        font-size: 0.95rem; color: var(--muted); margin-bottom: 28px;
+        font-size: 0.95rem;
+        color: var(--muted);
+        margin-bottom: 28px;
       }
 
-      .stores { display: flex; flex-direction: column; gap: 12px; }
+      .stores {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
       .store-btn {
-        display: flex; align-items: center; gap: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
         padding: 14px 18px;
-        background: var(--surface); color: var(--text);
-        border: 1px solid var(--border); border-radius: 12px;
-        text-decoration: none; font-weight: 600; font-size: 1rem;
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
         box-shadow: var(--shadow-soft);
-        transition: transform 0.15s, border-color 0.15s;
+        transition:
+          transform 0.15s,
+          border-color 0.15s;
       }
-      .store-btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+      .store-btn:hover {
+        transform: translateY(-1px);
+        border-color: var(--accent);
+      }
       .store-btn .icon {
-        flex: 0 0 28px; width: 28px; height: 28px;
-        display: flex; align-items: center; justify-content: center;
+        flex: 0 0 28px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      .store-btn .icon svg { width: 28px; height: 28px; display: block; }
-      .store-btn .label { flex: 1 1 auto; text-align: start; line-height: 1.3; }
+      .store-btn .icon svg {
+        width: 28px;
+        height: 28px;
+        display: block;
+      }
+      .store-btn .label {
+        flex: 1 1 auto;
+        text-align: start;
+        line-height: 1.3;
+      }
       .store-btn .sub {
-        display: block; font-weight: 400; font-size: 0.8rem; color: var(--faint);
+        display: block;
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: var(--faint);
       }
 
       .section-label {
-        margin: 30px 4px 12px; text-align: start;
-        font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
-        letter-spacing: 0.05em; color: var(--faint);
+        margin: 30px 4px 12px;
+        text-align: start;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--faint);
       }
-      .section-label .tag { text-transform: none; letter-spacing: 0; }
-      .status { font-size: 0.9rem; color: var(--muted); padding: 14px 0; }
+      .section-label .tag {
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .status {
+        font-size: 0.9rem;
+        color: var(--muted);
+        padding: 14px 0;
+      }
 
       /* ---- per-platform dropdowns, same as /download ---- */
       details {
-        border: 1px solid var(--border); border-radius: 10px;
-        margin-bottom: 8px; background: var(--surface); overflow: hidden; text-align: start;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 8px;
+        background: var(--surface);
+        overflow: hidden;
+        text-align: start;
       }
-      details[open] { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+      details[open] {
+        border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      }
       summary {
-        list-style: none; cursor: pointer; padding: 13px 16px;
-        display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 0.96rem;
+        list-style: none;
+        cursor: pointer;
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        font-size: 0.96rem;
       }
-      summary::-webkit-details-marker { display: none; }
-      summary:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
-      summary .os-ico { flex: 0 0 22px; width: 22px; height: 22px; display: flex; }
-      summary .os-ico svg { width: 22px; height: 22px; }
-      summary .chev { margin-inline-start: auto; transition: transform .2s; color: var(--faint); }
-      details[open] > summary .chev { transform: rotate(180deg); }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary:focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
+      }
+      summary .os-ico {
+        flex: 0 0 22px;
+        width: 22px;
+        height: 22px;
+        display: flex;
+      }
+      summary .os-ico svg {
+        width: 22px;
+        height: 22px;
+      }
+      summary .chev {
+        margin-inline-start: auto;
+        transition: transform 0.2s;
+        color: var(--faint);
+      }
+      details[open] > summary .chev {
+        transform: rotate(180deg);
+      }
       .dl {
-        display: flex; align-items: center; gap: 10px;
-        padding: 11px 16px 11px 50px; text-decoration: none; font-size: 0.92rem; font-weight: 500;
-        border-top: 1px solid var(--border); color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 16px 11px 50px;
+        text-decoration: none;
+        font-size: 0.92rem;
+        font-weight: 500;
+        border-top: 1px solid var(--border);
+        color: var(--text);
       }
-      .dl:hover { background: var(--surface-2); }
-      .dl .sub { color: var(--faint); font-size: 0.82rem; font-weight: 400; }
+      .dl:hover {
+        background: var(--surface-2);
+      }
+      .dl .sub {
+        color: var(--faint);
+        font-size: 0.82rem;
+        font-weight: 400;
+      }
 
       /* The wrapper draws nothing, and its summary is a quiet toggle rather
          than a button: the one button on this screen should be the visitor’s
          own. The sections inside keep their own spacing. */
       .all {
-        border: none; border-radius: 0; background: none;
-        margin: 0; overflow: visible;
+        border: none;
+        border-radius: 0;
+        background: none;
+        margin: 0;
+        overflow: visible;
       }
       .all > summary {
-        justify-content: center; gap: 8px; padding: 10px 4px;
-        font-size: 0.9rem; font-weight: 500; color: var(--muted);
-        transition: color .15s;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--muted);
+        transition: color 0.15s;
       }
-      .all > summary:hover { color: var(--text); }
-      .all > summary .chev { margin-inline-start: 0; }
+      .all > summary:hover {
+        color: var(--text);
+      }
+      .all > summary .chev {
+        margin-inline-start: 0;
+      }
+
+      /* iOS gets two numbered steps instead of one button: the TestFlight join
+         link only works once TestFlight is installed, and a tester it sends to
+         the App Store never finds their way back to the invite. */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .store-btn .step-num {
+        flex: 0 0 24px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
 
       .footnote {
-        margin-top: 26px; font-size: 0.8rem; color: var(--faint);
+        margin-top: 26px;
+        font-size: 0.8rem;
+        color: var(--faint);
       }
-      .footnote a { color: var(--accent); text-decoration: none; }
-      .footnote a:hover { text-decoration: underline; text-underline-offset: 2px; }
+      .footnote a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .footnote a:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
     </style>
   </head>
   <body>
     <main class="card">
       <!-- App mark -->
-      <a href="/" class="logo-link" title="Dash Chat home"><img class="logo" src="/dashchat-icon.png" alt="Dash Chat" width="64" height="64" /></a>
+      <a href="/" class="logo-link" title="Dash Chat home"
+        ><img
+          class="logo"
+          src="/dashchat-icon.png"
+          alt="Dash Chat"
+          width="64"
+          height="64"
+      /></a>
       <div class="app-name">Dash Chat</div>
       <div class="tagline" dir="auto">Help us test upcoming releases.</div>
 
@@ -148,65 +322,176 @@
           <span class="chev" aria-hidden="true">▾</span>
         </summary>
 
-      <!-- Mobile testing programs. Unlike /get, nobody is auto-redirected, so
+        <!-- Mobile testing programs. Unlike /get, nobody is auto-redirected, so
              testers always see the direct downloads and prerelease version too.
              Both stay listed even when the primary block above already offers
              one: this list is the page's map of the programmes, and a hole
              where the visitor's own platform belongs reads as a bug. -->
         <div class="section-label" dir="auto">Testing programs</div>
         <div class="stores">
-          <a class="store-btn" data-os="ios" href="https://testflight.apple.com/join/4Q3A7QZm" rel="noopener">
+          <a
+            class="store-btn"
+            data-os="ios"
+            href="https://testflight.apple.com/join/4Q3A7QZm"
+            rel="noopener"
+          >
             <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"
+                />
+              </svg>
             </span>
-            <span class="label">TestFlight<span class="sub" dir="auto">iPhone &amp; iPad</span></span>
+            <span class="label"
+              >TestFlight<span class="sub" dir="auto"
+                >iPhone &amp; iPad</span
+              ></span
+            >
           </a>
 
-          <a class="store-btn" data-os="android" href="https://play.google.com/apps/testing/studio.darksoil.dashchat" rel="noopener">
+          <a
+            class="store-btn"
+            data-os="android"
+            href="https://play.google.com/apps/testing/studio.darksoil.dashchat"
+            rel="noopener"
+          >
             <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M3.6 2.3a1.2 1.2 0 0 0-.6 1.06v17.28c0 .45.24.85.62 1.05L13.2 12 3.6 2.3z" fill="#2196F3"/><path d="M16.9 8.35 13.2 12l3.7 3.65 4.3-2.45c.78-.45.78-1.95 0-2.4L16.9 8.35z" fill="#FFC107"/><path d="m3.6 2.3 9.6 9.7 3.7-3.65L5.1 1.78a1.2 1.2 0 0 0-1.5.52z" fill="#4CAF50"/><path d="m13.2 12-9.6 9.7c.4.42 1.02.5 1.5.23l11.8-6.73L13.2 12z" fill="#F44336"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M3.6 2.3a1.2 1.2 0 0 0-.6 1.06v17.28c0 .45.24.85.62 1.05L13.2 12 3.6 2.3z"
+                  fill="#2196F3"
+                />
+                <path
+                  d="M16.9 8.35 13.2 12l3.7 3.65 4.3-2.45c.78-.45.78-1.95 0-2.4L16.9 8.35z"
+                  fill="#FFC107"
+                />
+                <path
+                  d="m3.6 2.3 9.6 9.7 3.7-3.65L5.1 1.78a1.2 1.2 0 0 0-1.5.52z"
+                  fill="#4CAF50"
+                />
+                <path
+                  d="m13.2 12-9.6 9.7c.4.42 1.02.5 1.5.23l11.8-6.73L13.2 12z"
+                  fill="#F44336"
+                />
+              </svg>
             </span>
-            <span class="label">Google Play<span class="sub" dir="auto">Join the testing program</span></span>
+            <span class="label"
+              >Google Play<span class="sub" dir="auto"
+                >Join the testing program</span
+              ></span
+            >
           </a>
         </div>
 
         <!-- Direct downloads from the latest GitHub release marked as prerelease,
              as per-platform dropdowns like /download. Rows and dropdowns stay
              hidden until the script matches them to an asset. -->
-        <div class="section-label" id="prerelease-label" dir="auto" hidden>Prerelease builds</div>
-        <p class="status" id="status" dir="auto" hidden>Finding the latest prerelease…</p>
+        <div class="section-label" id="prerelease-label" dir="auto" hidden>
+          Prerelease builds
+        </div>
+        <p class="status" id="status" dir="auto" hidden>
+          Finding the latest prerelease…
+        </p>
         <div class="platforms">
           <details data-os="mac" hidden>
-            <summary><span class="os-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"/></svg></span>macOS<span class="chev" aria-hidden="true">▾</span></summary>
-            <a class="dl" data-asset="mac_arm" href="#" rel="noopener" hidden>Apple Silicon <span class="sub">M1–M4 · .dmg</span></a>
-            <a class="dl" data-asset="mac_intel" href="#" rel="noopener" hidden>Intel <span class="sub">.dmg</span></a>
+            <summary>
+              <span class="os-ico" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M16.365 1.43c0 1.14-.42 2.2-1.11 3-.74.85-1.96 1.5-3 .9-.13-1.1.4-2.24 1.07-3 .73-.85 2.01-1.46 3.04-1.5-.01.2 0 .4 0 .6zM20.5 17.1c-.5 1.16-.74 1.67-1.39 2.69-.9 1.42-2.18 3.2-3.76 3.21-1.4.01-1.76-.92-3.66-.91-1.9.01-2.3.92-3.7.91-1.58-.01-2.79-1.61-3.69-3.03-2.52-3.98-2.78-8.65-1.23-11.13 1.1-1.77 2.84-2.8 4.47-2.8 1.66 0 2.71.92 4.08.92 1.33 0 2.14-.92 4.07-.92 1.46 0 3.01.8 4.11 2.18-3.61 1.98-3.02 7.13.4 8.88z"
+                  /></svg></span
+              >macOS<span class="chev" aria-hidden="true">▾</span>
+            </summary>
+            <a class="dl" data-asset="mac_arm" href="#" rel="noopener" hidden
+              >Apple Silicon <span class="sub">M1–M4 · .dmg</span></a
+            >
+            <a class="dl" data-asset="mac_intel" href="#" rel="noopener" hidden
+              >Intel <span class="sub">.dmg</span></a
+            >
           </details>
           <details data-os="win" hidden>
-            <summary><span class="os-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0078D4"><path d="M3 5.4 10.4 4.4v7.1H3V5.4zM11.3 4.3 21 3v8.5h-9.7V4.3zM3 12.5h7.4v7.1L3 18.6v-6.1zM11.3 12.5H21V21l-9.7-1.3v-7.2z"/></svg></span>Windows<span class="chev" aria-hidden="true">▾</span></summary>
-            <a class="dl" data-asset="win_exe" href="#" rel="noopener" hidden>Installer <span class="sub">.exe</span></a>
-            <a class="dl" data-asset="win_msi" href="#" rel="noopener" hidden>MSI package <span class="sub">.msi</span></a>
+            <summary>
+              <span class="os-ico" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="#0078D4">
+                  <path
+                    d="M3 5.4 10.4 4.4v7.1H3V5.4zM11.3 4.3 21 3v8.5h-9.7V4.3zM3 12.5h7.4v7.1L3 18.6v-6.1zM11.3 12.5H21V21l-9.7-1.3v-7.2z"
+                  /></svg></span
+              >Windows<span class="chev" aria-hidden="true">▾</span>
+            </summary>
+            <a class="dl" data-asset="win_exe" href="#" rel="noopener" hidden
+              >Installer <span class="sub">.exe</span></a
+            >
+            <a class="dl" data-asset="win_msi" href="#" rel="noopener" hidden
+              >MSI package <span class="sub">.msi</span></a
+            >
           </details>
           <details data-os="linux" hidden>
-            <summary><span class="os-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-2 0-3.2 1.6-3.2 3.7 0 1.2.1 2-.5 3-.7 1.1-2.3 2.6-2.3 5.6 0 .8-.6 1.3-.9 2-.4.8.1 1.4.9 1.5.7.1 1.6.5 2.4 1.3.6.6 1.7.6 2.3 0 .5-.5 1.1-.5 1.6 0 .6.6 1.7.6 2.3 0 .8-.8 1.7-1.2 2.4-1.3.8-.1 1.3-.7.9-1.5-.3-.7-.9-1.2-.9-2 0-3-1.6-4.5-2.3-5.6-.6-1-.5-1.8-.5-3C15.2 3.6 14 2 12 2zm-1.5 4.1c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9zm3 0c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9z"/></svg></span>Linux<span class="chev" aria-hidden="true">▾</span></summary>
-            <a class="dl" data-asset="linux" href="#" rel="noopener" hidden>AppImage <span class="sub">x86-64</span></a>
+            <summary>
+              <span class="os-ico" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2c-2 0-3.2 1.6-3.2 3.7 0 1.2.1 2-.5 3-.7 1.1-2.3 2.6-2.3 5.6 0 .8-.6 1.3-.9 2-.4.8.1 1.4.9 1.5.7.1 1.6.5 2.4 1.3.6.6 1.7.6 2.3 0 .5-.5 1.1-.5 1.6 0 .6.6 1.7.6 2.3 0 .8-.8 1.7-1.2 2.4-1.3.8-.1 1.3-.7.9-1.5-.3-.7-.9-1.2-.9-2 0-3-1.6-4.5-2.3-5.6-.6-1-.5-1.8-.5-3C15.2 3.6 14 2 12 2zm-1.5 4.1c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9zm3 0c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9z"
+                  /></svg></span
+              >Linux<span class="chev" aria-hidden="true">▾</span>
+            </summary>
+            <a class="dl" data-asset="linux" href="#" rel="noopener" hidden
+              >AppImage <span class="sub">x86-64</span></a
+            >
           </details>
           <details data-os="android" hidden>
-            <summary><span class="os-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#3DDC84"><path d="M7.2 4.6 6 2.8a.4.4 0 0 1 .7-.4l1.2 1.9a8 8 0 0 1 8.2 0l1.2-1.9a.4.4 0 0 1 .7.4l-1.2 1.8A7.7 7.7 0 0 1 20.5 11H3.5a7.7 7.7 0 0 1 3.7-6.4zM8.5 8.2a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zm7 0a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zM3.5 12.2h17V19a1.4 1.4 0 0 1-1.4 1.4h-1.3v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H9.6v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H5.9A1.4 1.4 0 0 1 4.5 19v-6.8z"/></svg></span>Android<span class="chev" aria-hidden="true">▾</span></summary>
-            <a class="dl" data-asset="android_apk" href="#" rel="noopener" hidden>Direct APK <span class="sub">no Play Store needed</span></a>
+            <summary>
+              <span class="os-ico" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="#3DDC84">
+                  <path
+                    d="M7.2 4.6 6 2.8a.4.4 0 0 1 .7-.4l1.2 1.9a8 8 0 0 1 8.2 0l1.2-1.9a.4.4 0 0 1 .7.4l-1.2 1.8A7.7 7.7 0 0 1 20.5 11H3.5a7.7 7.7 0 0 1 3.7-6.4zM8.5 8.2a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zm7 0a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8zM3.5 12.2h17V19a1.4 1.4 0 0 1-1.4 1.4h-1.3v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H9.6v2.2a1.2 1.2 0 0 1-2.4 0v-2.2H5.9A1.4 1.4 0 0 1 4.5 19v-6.8z"
+                  /></svg></span
+              >Android<span class="chev" aria-hidden="true">▾</span>
+            </summary>
+            <a
+              class="dl"
+              data-asset="android_apk"
+              href="#"
+              rel="noopener"
+              hidden
+              >Direct APK <span class="sub">no Play Store needed</span></a
+            >
           </details>
         </div>
 
         <div class="stores">
           <!-- Shown when the lookup fails, finds no prerelease, or the prerelease
                has no matching assets yet. No-JS visitors get it via <noscript>. -->
-          <a class="store-btn" id="fallback" href="https://github.com/dash-chat/dash-chat/releases" rel="noopener" hidden>
+          <a
+            class="store-btn"
+            id="fallback"
+            href="https://github.com/dash-chat/dash-chat/releases"
+            rel="noopener"
+            hidden
+          >
             <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"
+                />
+              </svg>
             </span>
-            <span class="label" id="fallback-label">All releases on GitHub</span>
+            <span class="label" id="fallback-label"
+              >All releases on GitHub</span
+            >
           </a>
           <noscript>
-            <a class="store-btn" href="https://github.com/dash-chat/dash-chat/releases" rel="noopener">
+            <a
+              class="store-btn"
+              href="https://github.com/dash-chat/dash-chat/releases"
+              rel="noopener"
+            >
               <span class="label">All releases on GitHub</span>
             </a>
           </noscript>
@@ -224,7 +509,9 @@
       var REPO = "dash-chat/dash-chat";
       var RELEASES_PAGE = "https://github.com/" + REPO + "/releases";
       var TESTFLIGHT = "https://testflight.apple.com/join/4Q3A7QZm";
-      var PLAY_TESTING = "https://play.google.com/apps/testing/studio.darksoil.dashchat";
+      var TESTFLIGHT_APP = "https://apps.apple.com/app/testflight/id899247664";
+      var PLAY_TESTING =
+        "https://play.google.com/apps/testing/studio.darksoil.dashchat";
 
       var primaryEl = document.getElementById("primary");
       var statusEl = document.getElementById("status");
@@ -257,9 +544,45 @@
       // Wording plus the cloned button carrying it. If the row ever goes away,
       // href/title/sub still render the shared default button.
       function programme(name, href, title, sub, extra) {
-        var o = { href: href, title: title, sub: sub, node: storeButton(name, title, sub) };
+        var o = {
+          href: href,
+          title: title,
+          sub: sub,
+          node: storeButton(name, title, sub),
+        };
         for (var k in extra) o[k] = extra[k];
         return o;
+      }
+
+      // A store button whose icon slot shows the step number instead.
+      // A store button with the step number where its logo was.
+      function stepButton(num, title, sub) {
+        var btn = storeButton("ios", title, sub);
+        if (!btn) return null;
+        var n = document.createElement("span");
+        n.className = "step-num";
+        n.textContent = num;
+        btn.querySelector(".icon").replaceWith(n);
+        return btn;
+      }
+
+      function testflightSteps() {
+        var install = stepButton(
+          "1",
+          "Install TestFlight",
+          "From the App Store",
+        );
+        var join = stepButton(
+          "2",
+          "Join the Dash Chat test program",
+          "Come back here once TestFlight is installed",
+        );
+        if (!install || !join) return null;
+        install.href = TESTFLIGHT_APP;
+        var steps = document.createElement("div");
+        steps.className = "steps";
+        steps.append(install, join);
+        return steps;
       }
 
       // Say we are working wherever the answer will land: in the primary
@@ -300,10 +623,22 @@
           urls: urls,
           fallbackHref: fallbackHref,
           desktopLabel: "Latest prerelease",
-          ios: programme("ios", TESTFLIGHT, "Join the TestFlight beta", "iPhone & iPad"),
-          android: programme("android", PLAY_TESTING, "Join the Play testing program", "Android", {
-            apkQuestion: "Can’t use the Play Store?", apkLinkText: "Download the prerelease APK"
-          })
+          ios: {
+            href: TESTFLIGHT,
+            title: "Join the TestFlight beta",
+            sub: "iPhone & iPad",
+            node: testflightSteps(),
+          },
+          android: programme(
+            "android",
+            PLAY_TESTING,
+            "Join the Play testing program",
+            "Android",
+            {
+              apkQuestion: "Can’t use the Play Store?",
+              apkLinkText: "Download the prerelease APK",
+            },
+          ),
         }).then(function (pick) {
           if (!pick.covered) clearPrimary();
           return pick;
@@ -322,12 +657,20 @@
       // The API lists releases newest first; stable releases in between push
       // prereleases down, so fetch a generous page.
       fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=30", {
-        headers: { Accept: "application/vnd.github+json" }
+        headers: { Accept: "application/vnd.github+json" },
       })
-        .then(function (r) { if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+        .then(function (r) {
+          if (!r.ok) throw new Error("http " + r.status);
+          return r.json();
+        })
         .then(function (releases) {
-          var rel = releases.filter(function (R) { return R.prerelease && !R.draft; })[0];
-          if (!rel) { noRelease(); return; }
+          var rel = releases.filter(function (R) {
+            return R.prerelease && !R.draft;
+          })[0];
+          if (!rel) {
+            noRelease();
+            return;
+          }
 
           var urls = resolveAssets(rel);
 
@@ -351,8 +694,15 @@
           link.rel = "noopener";
           link.target = "_blank";
           link.textContent = "Release notes & all files";
-          footnoteEl.appendChild(document.createTextNode(
-            rel.tag_name + (rel.published_at ? " · " + rel.published_at.slice(0, 10) : "") + " · "));
+          footnoteEl.appendChild(
+            document.createTextNode(
+              rel.tag_name +
+                (rel.published_at
+                  ? " · " + rel.published_at.slice(0, 10)
+                  : "") +
+                " · ",
+            ),
+          );
           footnoteEl.appendChild(link);
           footnoteEl.hidden = false;
 
@@ -371,7 +721,8 @@
             labelEl.hidden = !listed;
 
             // Nothing offered anywhere: point at the release itself.
-            if (!listed && !pick.covered) showFallback(rel.html_url, "View " + rel.tag_name + " on GitHub");
+            if (!listed && !pick.covered)
+              showFallback(rel.html_url, "View " + rel.tag_name + " on GitHub");
           });
         })
         .catch(noRelease);
