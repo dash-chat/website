@@ -1,6 +1,6 @@
 /*
   Styles for the detected-platform block that /js/platform-pick.js builds.
-  Shared by /download and /testing; all colours come from the host page's
+  Shared by /download and /test; all colours come from the host page's
   design tokens (--accent, --border, --faint, …), so each page keeps its look.
 */
 .primary { margin-bottom: 26px; min-height: 56px; }
