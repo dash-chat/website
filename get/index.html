@@ -12,10 +12,10 @@
          If /get is ever moved behind Cloudflare, add the header there too. -->
     <meta name="robots" content="noindex, nofollow" />
     <title>Get Dash Chat</title>
-    <!-- No-JS fallback for the temporary /testing/ override (see OVERRIDE in
+    <!-- No-JS fallback for the temporary /download/ override (see OVERRIDE in
          the script below). With JS on, the script counts the scan and
          redirects before this ever fires. -->
-    <noscript><meta http-equiv="refresh" content="0; url=/testing/" /></noscript>
+    <noscript><meta http-equiv="refresh" content="0; url=/download/" /></noscript>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -40,11 +40,11 @@
         };
         // ---- Temporary override (Sept 2026) --------------------------------
         // While the apps are in TestFlight / Play testing rather than the
-        // stores, EVERY visitor (any device) is sent to /testing/ instead of
+        // stores, EVERY visitor (any device) is sent to /download/ instead of
         // the store URLs above. The scan is still counted first. To restore
         // the store redirects, set OVERRIDE to "" (and remove the <noscript>
         // meta refresh in <head>).
-        var OVERRIDE = "/testing/";
+        var OVERRIDE = "/download/";
 
         // ---- Aggregate, privacy-preserving scan count ---------------------
         // Fire-and-forget. Sends ONLY the device class (ios/android/desktop) to

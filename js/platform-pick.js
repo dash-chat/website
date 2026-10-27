@@ -1,5 +1,5 @@
 /*
-  Shared platform detection for /download and /testing.
+  Shared platform detection for /download and /test.
 
   Both pages do the same job: ask GitHub for a release, map its assets to
   platform slots, and put the build for the visitor's own platform up front as
