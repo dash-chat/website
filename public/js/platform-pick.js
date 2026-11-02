@@ -1,12 +1,13 @@
 /*
-  Shared platform detection for /download and /test.
+  Shared platform detection for /download, /test and /add-contact.
 
-  Both pages do the same job: ask GitHub for a release, map its assets to
-  platform slots, and put the build for the visitor's own platform up front as
-  one big button. Only the release they pick (latest stable vs latest
+  /download and /test do the same job: ask GitHub for a release, map its assets
+  to platform slots, and put the build for the visitor's own platform up front
+  as one big button. Only the release they pick (latest stable vs latest
   prerelease) and where mobile visitors are sent (public store vs testing
   programme) differ, so that part stays in the pages — everything else lives
-  here so a new asset name or OS quirk is fixed once.
+  here so a new asset name or OS quirk is fixed once. /add-contact reuses the
+  detection and asset matching for its own download step.
 
   A native ES module, no build step: the pages import it from their
   <script type="module">. The markup it builds is styled by
@@ -37,6 +38,18 @@ function detectOS() {
 }
 
 export const os = detectOS();
+
+export async function fetchLatestStableDesktopRelease() {
+  const response = await fetch("https://api.github.com/repos/dash-chat/dash-chat/releases?per_page=15", {
+    headers: { Accept: "application/vnd.github+json" },
+  });
+  if (!response.ok) throw new Error(`http ${response.status}`);
+  const releases = await response.json();
+  return releases.find((release) =>
+    !release.prerelease && !release.draft &&
+    (release.assets ?? []).some((asset) => /\.(dmg|exe|msi|AppImage)$/i.test(asset.name))
+  ) ?? null;
+}
 
 /** Slot -> download URL for every asset the release actually ships. */
 export function resolveAssets(release) {
@@ -82,7 +95,7 @@ function caption(text) {
 }
 
 // "<question> <link>." — e.g. "Can’t use the Play Store? Download the APK."
-function linkHint(question, href, linkText) {
+export function linkHint(question, href, linkText) {
   const link = document.createElement("a");
   link.href = href;
   link.rel = "noopener";
@@ -110,7 +123,7 @@ function fill(el, nodes) {
 
 // Only Chromium exposes the CPU architecture, so we never hide either Mac
 // build — we just mark the likely one, Apple Silicon unless told otherwise.
-async function macArchitecture() {
+export async function macArchitecture() {
   const data = navigator.userAgentData;
   if (!data?.getHighEntropyValues) return "arm";
   try {
