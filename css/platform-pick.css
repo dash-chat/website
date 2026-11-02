@@ -1,7 +1,8 @@
 /*
   Styles for the detected-platform block that /js/platform-pick.js builds.
-  Shared by /download and /test; all colours come from the host page's
-  design tokens (--accent, --border, --faint, …), so each page keeps its look.
+  Shared by /download, /test and /add-contact; all colours come from the host
+  page's design tokens (--accent, --border, --faint, …), so each page keeps its
+  look.
 */
 .primary { margin-bottom: 26px; min-height: 56px; }
 .primary .loading { color: var(--muted); font-size: 0.92rem; padding: 14px 0; }
